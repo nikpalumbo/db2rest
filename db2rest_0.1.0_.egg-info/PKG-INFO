@@ -1,0 +1,50 @@
+Metadata-Version: 1.1
+Name: db2rest-0.1.0-
+Version: 0.1.0
+Summary: A HTTP REST API for relational databases
+Home-page: http://stephanepechard.github.com/projy
+Author: Nicola Palumbo
+Author-email: nikpalumbo@gmail.com
+License: UNKNOWN
+Description: ==================================
+        db2rest
+        ==================================
+        
+        db2rest provides such and such and so and so. You might find
+        it most useful for tasks involving <x> and also <y>. Typical usage
+        often looks like this::
+        
+            #!/usr/bin/env python
+        
+            import db2rest
+        
+        
+        
+        A word on Sphinx
+        ================
+        Paragraphs are separated by blank lines. *Italics*, **bold**,
+        and ``monospace`` look like this.
+        
+        Lists look like this:
+        
+        * First
+        
+        * Second. Can be multiple lines
+          but must be indented properly.
+        
+        A Sub-Section
+        -------------
+        
+        Numbered lists look like you'd expect:
+        
+        1. hi there
+        
+        2. must be going
+        
+        Urls are http://like.this and links can be
+        written `like this <http://www.example.com/foo/bar>`_.
+        
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Programming Language :: Python
