@@ -1,8 +1,11 @@
 def extract_file_ext(request):
     """
-    Extracts file extenstion from a request.
+    Extracts file extension either from a request, or enviroment.
     """
-    mimetype = request.accept_mimetypes.best
+    if isinstance(request, basestring):
+        mimetype = request
+    else:
+        mimetype = request.accept_mimetypes.best
     return mimetype.split('/')[1]
 
 
