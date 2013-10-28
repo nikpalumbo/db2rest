@@ -13,9 +13,8 @@ class DBAdapter(object):
 
     def add_row(self, table_name, values):
         table = sql.Table(table_name, self.meta)
-        params = dict(values.items())
-        if set(params).issubset(set(table.columns.keys())):
-            stmt = sql.sql.expression.insert(table, params)
+        if set(values).issubset(set(table.columns.keys())):
+            stmt = sql.sql.expression.insert(table, values)
             res = self.conn.execute(stmt)
             return res.lastrowid
 
@@ -32,3 +31,11 @@ class DBAdapter(object):
     def get_row(self, table_name, row_id):
         table = sql.Table(table_name, self.meta)
         return [self.session.query(table).filter_by(id=row_id).one()]
+
+    def update_row(self, table_name, row_id, values):
+        table = sql.Table(table_name, self.meta)
+        stmt = sql.sql.expression.update(table).\
+            where(table.c.id == row_id).\
+            values(values)
+        res = self.conn.execute(stmt)
+        return res.rowcount

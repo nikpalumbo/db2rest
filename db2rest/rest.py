@@ -24,8 +24,10 @@ class RestAPI(object):
     def delete(self):
         raise NotImplementedError("Not yet")
 
-    def update(self):
-        raise NotImplementedError("Not yet")
+    def put(self, request, params):
+        view = self.views.get(params['view'])
+        data = view(self.db_adapter, request, params).update()
+        return self.renderer(view, request, data)
 
 
 class View(object):
@@ -44,7 +46,7 @@ class Table(View):
 
     def _create(self):
         table_name = helpers.extract_table_name(self.request)
-        values = self.request.values
+        values = dict(self.request.values.items())
         return self.db_adapter.add_row(table_name, values)
 
     def create_json(self):
@@ -107,6 +109,11 @@ class Row(Table):
         headers = self.db_adapter.get_headers(table)
         rows = self.db_adapter.get_row(table, row_id)
         return table, headers, rows
+
+    def update(self):
+        table, row_id = helpers.extract_table_row_id(self.request.path)
+        values = dict(self.request.values.items())
+        return self.db_adapter.update_row(table, row_id, values)
 
 
 views = [Table, Tables, Row]
