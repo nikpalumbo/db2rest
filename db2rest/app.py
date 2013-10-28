@@ -1,8 +1,9 @@
 from werkzeug.wrappers import Request
-from werkzeug.exceptions import HTTPException, NotFound
+import werkzeug.exceptions as ex
 from werkzeug.wsgi import SharedDataMiddleware
 from db2rest.db import DBAdapter
 from db2rest.rest import RestAPI
+from db2rest.exceptions import NotFound
 
 
 class DB2Rest(object):
@@ -21,9 +22,9 @@ class DB2Rest(object):
             api = RestAPI(self.db_adapter, values)
             values['view'] = endpoint
             return getattr(api, request.method.lower())(request, values)
-        except NotFound, e:
-            return self.error_404()
-        except HTTPException, e:
+        except ex.NotFound, e:
+            return NotFound()
+        except ex.HTTPException, e:
             return e
 
     def wsgi_app(self, environ, start_response):

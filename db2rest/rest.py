@@ -1,6 +1,6 @@
-from db2rest.renderer import Renderer
+from db2rest.renderer import Renderer, Response
 from db2rest.helpers import extract_file_ext, extract_table_name
-from db2rest.exception import MethodNotAllowed
+from db2rest.exceptions import MethodNotAllowed
 
 
 class RestAPI(object):
@@ -19,8 +19,12 @@ class RestAPI(object):
                                    request=request,
                                    method='post')
 
-        data = view(self.db_adapter, request, self.params).create()
-        return self.renderer(self.params['view'], request, data)
+        row_id = view(self.db_adapter, request, self.params).create()
+        if row_id:
+            msg = "Resource has been created"
+            response = Response(msg, status="201")
+            response.location = "/".join((request.path, str(row_id)))
+        return self.renderer(self.params['view'], request, row_id, response)
 
     def get(self, request, response):
         view = self.views.get(self.params['view'])

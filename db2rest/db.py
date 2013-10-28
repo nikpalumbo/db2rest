@@ -17,7 +17,7 @@ class DBAdapter(object):
         if set(params).issubset(set(table.columns.keys())):
             stmt = sql.sql.expression.insert(table, params)
             res = self.conn.execute(stmt)
-            return res.rowcount
+            return res.lastrowid
 
     def get_tables(self):
         return [x.name for x in reversed(self.meta.sorted_tables)]
