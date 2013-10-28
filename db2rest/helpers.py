@@ -25,3 +25,15 @@ def extract_table_row_id(uri):
     """Returns the table name and row id from a string.
     """
     return uri.split('/')[1:]
+
+
+def create_response(request, row_id):
+    """Creates the post response.
+    """
+    from db2rest.renderer import Response
+    response = None
+    if row_id:
+        msg = "Resource %d created" % row_id
+        response = Response(msg, status="201")
+        response.location = "/".join((request.path, str(row_id)))
+    return response

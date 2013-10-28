@@ -18,9 +18,8 @@ class DB2Rest(object):
     def dispatch_request(self, request):
         adapter = self.url_map.bind_to_environ(request.environ)
         try:
-
             endpoint, values = adapter.match()
-            api = RestAPI(self.db_adapter, values)
+            api = RestAPI(self.db_adapter)
             values['view'] = endpoint
             return getattr(api, request.method.lower())(request, values)
         except ex.NotFound, e:

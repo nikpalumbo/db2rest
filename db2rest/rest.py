@@ -1,33 +1,24 @@
-from db2rest.renderer import Renderer, Response
+from db2rest.renderer import Renderer
 import db2rest.helpers as helpers
 from db2rest.exceptions import MethodNotAllowed
 
 
 class RestAPI(object):
 
-    def __init__(self, db_adapter, params):
+    def __init__(self, db_adapter):
         self.db_adapter = db_adapter
-        self.params = params
         self.renderer = Renderer()
         self.views = dict((v.name, v) for v in views)
 
-    def _create_response(self, request, row_id):
-        response = None
-        if row_id:
-            msg = "Resource created"
-            response = Response(msg, status="201")
-            response.location = "/".join((request.path, str(row_id)))
-        return response
-
-    def post(self, request, response):
-        view = self.views.get(self.params['view'])
-        row_id = view(self.db_adapter, request, self.params).create()
-        self._create_response(request, row_id)
+    def post(self, request, params):
+        view = self.views.get(params['view'])
+        row_id = view(self.db_adapter, request, params).create()
+        response = helpers.create_response(request, row_id)
         return self.renderer(view, request, row_id, response)
 
-    def get(self, request, response):
-        view = self.views.get(self.params['view'])
-        data = view(self.db_adapter, request, self.params).get()
+    def get(self, request, params):
+        view = self.views.get(params['view'])
+        data = view(self.db_adapter, request, params).get()
         return self.renderer(view, request, data)
 
     def delete(self):
