@@ -28,3 +28,7 @@ class DBAdapter(object):
     def get_rows(self, table_name):
         table = sql.Table(table_name, self.meta)
         return self.session.query(table).all()
+
+    def get_row(self, table_name, row_id):
+        table = sql.Table(table_name, self.meta)
+        return [self.session.query(table).filter_by(id=row_id).one()]

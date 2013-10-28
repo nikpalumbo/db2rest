@@ -18,6 +18,7 @@ class DB2Rest(object):
     def dispatch_request(self, request):
         adapter = self.url_map.bind_to_environ(request.environ)
         try:
+
             endpoint, values = adapter.match()
             api = RestAPI(self.db_adapter, values)
             values['view'] = endpoint
@@ -71,6 +72,7 @@ def create_map(db_engine):
 
     for table in reversed(meta.sorted_tables):
         rules.append(Rule("/%s" % table, endpoint='Table'))
+        rules.append(Rule("/%s/<int:id>" % table, endpoint='Row'))
     return Map(rules)
 
 

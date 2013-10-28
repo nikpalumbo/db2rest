@@ -14,8 +14,8 @@ class Renderer(object):
         loader = FileSystemLoader(self.template_path)
         self.jinja_env = Environment(loader=loader, autoescape=True)
 
-    def __call__(self, template, req, data, resp=None):
-        return self._render_template(template, data, resp,
+    def __call__(self, view, req, data, resp=None):
+        return self._render_template(view.template_name, data, resp,
                                      req.accept_mimetypes.best)
 
     def _render(self, data, file_ext, template_path):
