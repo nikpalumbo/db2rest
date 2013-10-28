@@ -26,21 +26,14 @@ class HTTPExceptionMixin(ex.HTTPException):
 
 class MethodNotAllowed(ex.MethodNotAllowed, HTTPExceptionMixin):
 
-    def __init__(self, description, valid_methods, request, method):
+    def __init__(self, description, valid_methods, method):
         super(MethodNotAllowed, self).__init__(description=description,
                                                valid_methods=valid_methods)
-        self.request = request
         self.method = method
 
     @property
     def body_message(self):
         return "The method %s is not allowed" % self.method.upper()
-
-
-    #def get_reponse(self):
-    #    resp = super(MethodNotAllowed, self).get_response()
-    #    resp.mimetype = self.request.accept_mimetypes.best
-    #    return resp
 
 
 class NotFound(ex.NotFound, HTTPExceptionMixin):

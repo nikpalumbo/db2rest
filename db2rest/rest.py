@@ -16,7 +16,6 @@ class RestAPI(object):
         if view == Tables:
             raise MethodNotAllowed(description="This is a readonly view",
                                    valid_methods=view.valid_methods,
-                                   request=request,
                                    method='post')
 
         row_id = view(self.db_adapter, request, self.params).create()
