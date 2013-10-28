@@ -1,5 +1,0 @@
-sqlalchemy
-mysql-python
-werkzeug
-simplejson
-jinja2
