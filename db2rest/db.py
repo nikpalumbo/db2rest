@@ -29,13 +29,20 @@ class DBAdapter(object):
         return self.session.query(table).all()
 
     def get_row(self, table_name, row_id):
+        """Returns a list with a row found.
+        """
         table = sql.Table(table_name, self.meta)
         return [self.session.query(table).filter_by(id=row_id).one()]
 
     def update_row(self, table_name, row_id, values):
+        """Update the given row_id in the given table.
+        """
         table = sql.Table(table_name, self.meta)
         stmt = sql.sql.expression.update(table).\
             where(table.c.id == row_id).\
             values(values)
         res = self.conn.execute(stmt)
-        return res.rowcount
+        self.session.commit()
+        return res.rowcount,\
+            dict(zip(self.get_headers(table_name),
+                     self.get_row(table_name, row_id)[0]))

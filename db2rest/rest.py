@@ -21,13 +21,16 @@ class RestAPI(object):
         data = view(self.db_adapter, request, params).get()
         return self.renderer(view, request, data)
 
-    def delete(self):
-        raise NotImplementedError("Not yet")
+    def delete(self, request, params):
+        view = self.views.get(params['view'])
+        data = view(self.db_adapter, request, params).delete()
+        return self.renderer(view, request, data)
 
     def put(self, request, params):
         view = self.views.get(params['view'])
-        data = view(self.db_adapter, request, params).update()
-        return self.renderer(view, request, data)
+        row = view(self.db_adapter, request, params).update()
+        response = helpers.update_response(request, row)
+        return self.renderer(view, request, row, response)
 
 
 class View(object):
@@ -101,7 +104,7 @@ class Tables(View):
 
 class Row(Table):
     name = 'Row'
-    valid_methods = ['get', 'post', 'put', 'delete']
+    valid_methods = ['get', 'put', 'delete']
     template_name = "Table"
 
     def _get(self):
@@ -115,5 +118,6 @@ class Row(Table):
         values = dict(self.request.values.items())
         return self.db_adapter.update_row(table, row_id, values)
 
-
+    def delete(self):
+        pass
 views = [Table, Tables, Row]

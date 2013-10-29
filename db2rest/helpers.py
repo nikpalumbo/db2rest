@@ -37,3 +37,15 @@ def create_response(request, row_id):
         response = Response(msg, status="201")
         response.location = "/".join((request.path, str(row_id)))
     return response
+
+
+def update_response(request, data):
+    """Creates the update response.
+    """
+    from db2rest.renderer import Response
+    rowcount, data = data
+    response = None
+    if data:
+        msg = "Resource modified %d, %s created" % (rowcount, data)
+        response = Response(msg, status="201")
+    return response
