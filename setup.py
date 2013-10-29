@@ -21,7 +21,8 @@ setup(
     packages=['db2rest','db2rest.test'],
     url='http://stephanepechard.github.com/projy',
     long_description=open('README.txt').read(),
-    install_requires=['sqlalchemy','mysql-python','werkzeug','simplejson','jinja2'],
+    install_requires=['sqlalchemy','mysql-python','werkzeug',
+                      'simplejson','jinja2','python-ldap'],
     test_suite='db2rest.test',
     classifiers=[
         'Development Status :: 3 - Alpha',

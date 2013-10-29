@@ -1,11 +1,19 @@
 from werkzeug.wrappers import Response
+import ldap
 
 
 def check_auth(username, password):
     """This function is called to check if a username /
     password combination is valid.
     """
-    return username == 'admin' and password == 'secret'
+    ld = ldap.initialize('ldap://fgcz-ldap.fgcz-net.unizh.ch')
+    cn = "CN=" + username
+    dn = cn + ",OU=OU_Employees,OU=OU_Accounts,DC=FGCZ-NET,DC=unizh,DC=ch"
+    try:
+        ld.simple_bind_s(dn, password)
+        return True
+    except:
+        return False
 
 
 def authenticate():
