@@ -3,7 +3,8 @@ import werkzeug.exceptions as ex
 from werkzeug.wsgi import SharedDataMiddleware
 from db2rest.db import DBAdapter
 from db2rest.rest import RestAPI
-from db2rest.exceptions import NotFound
+from db2rest.exceptions import NotFound, Unauthorized
+from db2rest.auth import is_authenticated
 
 
 class DB2Rest(object):
@@ -21,7 +22,9 @@ class DB2Rest(object):
             endpoint, values = adapter.match()
             api = RestAPI(self.db_adapter)
             values['view'] = endpoint
-            return getattr(api, request.method.lower())(request, values)
+            if is_authenticated(request):
+                return getattr(api, request.method.lower())(request, values)
+            raise Unauthorized()
         except ex.NotFound, e:
             return NotFound()
         except ex.HTTPException, e:

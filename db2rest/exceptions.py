@@ -24,7 +24,7 @@ class HTTPExceptionMixin(ex.HTTPException):
                                 to implemet this method""")
 
 
-class MethodNotAllowed(ex.MethodNotAllowed, HTTPExceptionMixin):
+class MethodNotAllowed(ex.MethodNotAllowed,  HTTPExceptionMixin):
 
     def __init__(self, description, valid_methods, method):
         super(MethodNotAllowed, self).__init__(description=description,
@@ -41,3 +41,14 @@ class NotFound(ex.NotFound, HTTPExceptionMixin):
     @property
     def body_message(self):
         return "Resource Not Found"
+
+
+class Unauthorized(ex.Unauthorized, HTTPExceptionMixin):
+
+    @property
+    def body_message(self):
+        return "Login Required"
+
+    def get_headers(self, enviro):
+        super(HTTPExceptionMixin, self).get_headers(enviro)
+        return {'WWW-Authenticate': 'Basic realm="/"'}
