@@ -18,6 +18,14 @@ class DBAdapter(object):
             res = self.conn.execute(stmt)
             return res.lastrowid
 
+    def delete_row(self, table_name, row_id):
+        table = sql.Table(table_name, self.meta)
+        stmt = sql.sql.expression.delete(table).\
+            where(table.c.id == row_id)
+        res = self.conn.execute(stmt)
+        self.session.commit()
+        return res.rowcount
+
     def get_tables(self):
         return [x.name for x in reversed(self.meta.sorted_tables)]
 

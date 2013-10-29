@@ -24,7 +24,8 @@ class RestAPI(object):
     def delete(self, request, params):
         view = self.views.get(params['view'])
         data = view(self.db_adapter, request, params).delete()
-        return self.renderer(view, request, data)
+        response = helpers.delete_response(request)
+        return self.renderer(view, request, data, response)
 
     def put(self, request, params):
         view = self.views.get(params['view'])
@@ -119,5 +120,8 @@ class Row(Table):
         return self.db_adapter.update_row(table, row_id, values)
 
     def delete(self):
-        pass
+        table, row_id = helpers.extract_table_row_id(self.request.path)
+        return self.db_adapter.delete_row(table, row_id)
+
+
 views = [Table, Tables, Row]

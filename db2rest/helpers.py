@@ -40,7 +40,7 @@ def create_response(request, row_id):
 
 
 def update_response(request, data):
-    """Creates the update response.
+    """Creates a update response.
     """
     from db2rest.renderer import Response
     rowcount, data = data
@@ -49,3 +49,10 @@ def update_response(request, data):
         msg = "Resource modified %d, %s created" % (rowcount, data)
         response = Response(msg, status="201")
     return response
+
+
+def delete_response(request):
+    """Creates a delete response.
+    """
+    from db2rest.renderer import Response
+    return Response(status="204")
