@@ -9,4 +9,4 @@ class DBAdapter(object):
         self.meta.reflect(bind=db_engine)
 
     def tables(self):
-        return reversed(self.meta.sorted_tables):
+        return reversed(self.meta.sorted_tables)

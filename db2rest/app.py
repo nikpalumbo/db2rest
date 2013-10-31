@@ -9,7 +9,7 @@ from db2rest.auth import is_authenticated
 
 class DB2Rest(object):
 
-    def __init__(self, config, db_engine, host, port, log):
+    def __init__(self, db_engine, host, port, log):
         self.url_map = create_map(db_engine)
         self.host = host
         self.port = port
@@ -20,8 +20,8 @@ class DB2Rest(object):
         adapter = self.url_map.bind_to_environ(request.environ)
         try:
             endpoint, values = adapter.match()
-            api = RestAPI(self.db_adapter)
             values['view'] = endpoint
+            api = RestAPI(self.db_adapter)
             if is_authenticated(request):
                 return getattr(api, request.method.lower())(request, values)
             raise Unauthorized()
@@ -45,13 +45,12 @@ def create_app(config_file):
 
     config = ConfigParser.ConfigParser()
     config.read(config_file)
-
     host = config.get('webserver', 'host')
     port = config.getint('webserver', 'port')
     db_engine = create_engine(config.get('db', 'string_connection'))
     log = create_logger(config.get('logger', 'level'))
 
-    app = DB2Rest(config_file, db_engine, host, port, log)
+    app = DB2Rest(db_engine, host, port, log)
     shared = SharedDataMiddleware(
         app.wsgi_app,
         {'/static':  os.path.join(os.path.dirname(__file__), 'static')})
@@ -89,5 +88,4 @@ if __name__ == '__main__':
         config_file = sys.argv[1]
 
     app = create_app(config_file)
-
     run_simple(app.host, app.port, app, use_debugger=True, use_reloader=True)
