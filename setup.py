@@ -11,7 +11,7 @@ except ImportError:
     from distutils.core import setup
 from os.path import join, dirname
 
-__version__ = "db2rest: 0.1.0:"
+__version__ = "0.1.0"
 setup(
     name=__version__,
     version='0.1.0',

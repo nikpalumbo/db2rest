@@ -9,11 +9,12 @@ from db2rest.auth import is_authenticated
 
 class DB2Rest(object):
 
-    def __init__(self, db_engine, host, port, log):
+    def __init__(self, db_engine, host, port, log, ldap):
         self.url_map = create_map(db_engine)
         self.host = host
         self.port = port
         self.log = log
+        self.ldap = ldap
         self.db_adapter = DBAdapter(db_engine)
 
     def dispatch_request(self, request):
@@ -22,7 +23,7 @@ class DB2Rest(object):
             endpoint, values = adapter.match()
             values['view'] = endpoint
             api = RestAPI(self.db_adapter)
-            if is_authenticated(request):
+            if is_authenticated(self.ldap, request):
                 return getattr(api, request.method.lower())(request, values)
             raise Unauthorized()
         except ex.NotFound, e:
@@ -43,19 +44,26 @@ def create_app(config_file):
     from sqlalchemy import create_engine
     import ConfigParser
 
-    config = ConfigParser.ConfigParser()
+    config = ConfigParser.SafeConfigParser()
     config.read(config_file)
     host = config.get('webserver', 'host')
     port = config.getint('webserver', 'port')
     db_engine = create_engine(config.get('db', 'string_connection'))
     log = create_logger(config.get('logger', 'level'))
-
-    app = DB2Rest(db_engine, host, port, log)
+    ldap = initialize_ldap(config.get('ldap', 'string_connection'),
+                           config.get('ldap', 'query'))
+    app = DB2Rest(db_engine, host, port, log, ldap)
     shared = SharedDataMiddleware(
         app.wsgi_app,
         {'/static':  os.path.join(os.path.dirname(__file__), 'static')})
     app.wsgi_app = shared
     return app
+
+
+def initialize_ldap(string_connection, query):
+    import ldap
+    conn = ldap.initialize(string_connection)
+    return dict(ldap=conn, query=query)
 
 
 def create_logger(level):

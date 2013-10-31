@@ -75,17 +75,6 @@ To update a field of a row:
 	curl --user usernmae:$mypassword -i -H "Accept: application/json" -X PUT  -d "myfield=myvalue "http://localhost:5000/mytablename/myid 
 	
 ***	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 		
 	
 	

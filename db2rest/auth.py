@@ -1,16 +1,15 @@
 from werkzeug.wrappers import Response
-import ldap
 
 
-def check_auth(username, password):
+def check_auth(ldap, username, password):
     """This function is called to check if a username /
     password combination is valid.
     """
-    ld = ldap.initialize('ldap://fgcz-ldap.fgcz-net.unizh.ch')
-    cn = "CN=" + username
-    dn = cn + ",OU=OU_Employees,OU=OU_Accounts,DC=FGCZ-NET,DC=unizh,DC=ch"
+    ld = ldap.get('ldap')
+    # query = ldap.get('query') % dict(username=username)
+    query = ldap.get('query') % username
     try:
-        ld.simple_bind_s(dn, password)
+        ld.simple_bind_s(query, password)
         return True
     except:
         return False
@@ -25,8 +24,8 @@ def authenticate():
         {'WWW-Authenticate': 'Basic realm="Login Required"'})
 
 
-def is_authenticated(request):
+def is_authenticated(ldap, request):
     """Verify wether the request is authorized or not.
     """
     auth = request.authorization
-    return auth and check_auth(auth.username, auth.password)
+    return auth and check_auth(ldap, auth.username, auth.password)
