@@ -13,13 +13,13 @@ from os.path import join, dirname
 
 __version__ = "0.1.0"
 setup(
-    name=__version__,
+    name="db2rest",
     version='0.1.0',
     description='A HTTP REST API for relational databases',
     author='Nicola Palumbo',
     author_email='nikpalumbo@gmail.com',
     packages=['db2rest','db2rest.test'],
-    url='http://stephanepechard.github.com/projy',
+    url='https://bitbucket.org/nikpalumbo/db2rest',
     long_description=open('README.md').read(),
     install_requires=['sqlalchemy','mysql-python','werkzeug',
                       'simplejson','jinja2','python-ldap'],
