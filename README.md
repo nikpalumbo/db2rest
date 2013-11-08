@@ -6,23 +6,14 @@ it most useful for tasks where you want access the database by using the HTTP
 protocol.
 
 
-#### To install
+#### Installation
+Egg-files for this project are hosted on PyPi. You should be able to use pip to automatically install this project.	
 	
-check it out from the repository
+	pip install db2rest
 	
-	cd project_dir
-	python setup.py install
-
-#### To contribute
-
-check it out from the repository
 	
-	cd project_dir
-	python setup.py develop
-
-#### To configure
+#### Configuration
 	
-	cd project_dir	
 	edit db2rest/confing.cfg
 	
 In order to connect to the database modify the string connection and the configure LDAP to provied to the API a way to authorize the users.   
@@ -41,14 +32,21 @@ In order to connect to the database modify the string connection and the configu
 	string_connection: ldap://LDAPSERVER
 	query:				MYQUERY
 	
-#### To run
+#### Example
+
+Type the following command:
+
+	db2rest-run
+
+If everthing went fine you should be able to see the following two lines:
+
+	INFO:werkzeug: * Running on http://127.0.0.1:5000/
+	INFO:werkzeug: * Restarting with reloader
+
 	
-	cd project_dir_name
-	python db2rest/app.py
 
-
-#### To get info from command line
-Set you password in this way avoiding to keep in the history shell:
+#### To query your database from command line using curl
+Set you password in this way the password isn't in the history's shell:
 	
 	read -s -p "Enter Password: " mypassword
 	Enter Password:********

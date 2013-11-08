@@ -6,3 +6,6 @@
 .project
 .pydevproject
 .svn
+*.cfg
+build
+dist
