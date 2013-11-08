@@ -1,3 +1,5 @@
+import sys
+import os
 from werkzeug.wrappers import Request
 import werkzeug.exceptions as ex
 from werkzeug.wsgi import SharedDataMiddleware
@@ -85,9 +87,7 @@ def create_map(db_engine):
     return Map(rules)
 
 
-if __name__ == '__main__':
-    import sys
-    import os
+def start():
     from werkzeug.serving import run_simple
 
     config_file = os.path.join(os.path.dirname(__file__), 'config.cfg')

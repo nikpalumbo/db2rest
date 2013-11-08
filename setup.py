@@ -24,9 +24,20 @@ setup(
     install_requires=['sqlalchemy','mysql-python','werkzeug',
                       'simplejson','jinja2','python-ldap'],
     test_suite='db2rest.test',
+    keywords=['database', 'HTTP rest'],
+    scripts=['scripts/db2rest-tests.py'],
+    entry_points={'console_scripts': [
+            'db2rest-run = db2rest.app:start']},
     classifiers=[
         'Development Status :: 3 - Alpha',
-        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
+        'Environment :: Console',
+        'Intended Audience :: Developers',
+        'Intended Audience :: System Administrators',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: MacOS :: MacOS X',
+        'Operating System :: Microsoft :: Windows',
+        'Operating System :: POSIX',
         'Programming Language :: Python',
-      ],
+        'Topic :: Communications :: Email',
+        ],
 )
