@@ -41,7 +41,11 @@ Rename it:
 Type the following command:
 
 	db2rest-run
+or,
 
+	db2rest-run YOUR_CONFIG_FILE 
+	
+	
 If everthing went fine you should be able to see the following two lines:
 
 	INFO:werkzeug: * Running on http://127.0.0.1:5000/
