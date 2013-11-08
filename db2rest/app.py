@@ -95,5 +95,7 @@ def start():
     if len(sys.argv) > 1:
         config_file = sys.argv[1]
 
+    if not os.path.exists(config_file):
+        raise IOError("Cannot read the configuration file:")
     app = create_app(config_file)
     run_simple(app.host, app.port, app, use_debugger=True, use_reloader=True)
