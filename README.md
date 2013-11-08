@@ -1,6 +1,24 @@
 Databased to REST API
 =====================
 
+- image:: https://pypip.in/v/db2rest/badge.png
+    :target: https://crate.io/packages/db2rest/
+    :alt: Latest PyPI version
+
+.. image:: https://pypip.in/d/Mopidy-radio-de/badge.png
+    :target: https://crate.io/packages/Mopidy-radio-de/
+    :alt: Number of PyPI downloads
+
+.. image:: https://travis-ci.org/hechtus/mopidy-radio-de.png?branch=master
+    :target: https://travis-ci.org/hechtus/mopidy-radio-de
+    :alt: Travis CI build status
+
+.. image:: https://coveralls.io/repos/hechtus/mopidy-radio-de/badge.png?branch=master
+   :target: https://coveralls.io/r/hechtus/mopidy-radio-de?branch=master
+   :alt: Test coverage
+
+
+
 db2rest provides a HTTP REST API for relational databases. You might find
 it most useful for tasks where you want access the database by using the HTTP
 protocol.
