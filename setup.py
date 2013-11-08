@@ -20,7 +20,7 @@ setup(
     author_email='nikpalumbo@gmail.com',
     packages=['db2rest','db2rest.test'],
     url='https://bitbucket.org/nikpalumbo/db2rest',
-    long_description=open('README.md').read(),
+    long_description=open('README.rst').read(),
     install_requires=['sqlalchemy','mysql-python','werkzeug',
                       'simplejson','jinja2','python-ldap'],
     test_suite='db2rest.test',
