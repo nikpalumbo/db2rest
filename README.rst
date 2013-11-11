@@ -117,4 +117,6 @@ To update a field of a row:
 NOTES
 ^^^^^
 
-This software is also on GITHub because of Travis-Ci provides a continuos service integration:  https://github.com/nikpalumbo/db2rest.git
+This software is also on GITHub because of Travis-Ci provides a continuos service integration and multiple enviroment runtimes:  
+
+	https://github.com/nikpalumbo/db2rest.git
