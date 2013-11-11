@@ -2,6 +2,7 @@ Databased to REST API
 =====================
 
 ![image](https://pypip.in/v/db2rest/badge.png) ![image](https://pypip.in/d/db2rest/badge.png)
+![image](https://travis-ci.org/nikpalumbo/db2rest.png?branch=master)
 
 db2rest provides a HTTP REST API for relational databases. You might
 find it most useful for tasks where you want access the database by
