@@ -10,7 +10,7 @@ using the HTTP protocol.
 Installation
 ------------
 
-Egg-files for this project are hosted on PyPi. You should be able to use
+Egg and source files for this project are hosted on PyPi. You should be able to use
 pip to automatically install this project.
 
     pip install db2rest
@@ -84,12 +84,42 @@ To update a field of a row:
 
     curl --user usernmae:$mypassword -i -H "Accept: application/json" -X PUT  -d "myfield=myvalue "http://localhost:5000/mytablename/myid 
 
-* * * * *
 
-Notes
------
+GIT and Continuos Integration
+-----------------------------
 
-This software is also on GITHub because of Travis-Ci provides a
-continuos service integration and multiple enviroment runtimes:
+I like Bitbucket so I published the packages at:
+
+> <https://bitbucket.org/nikpalumbo/db2rest>
+
+In order to use the continuos service integration and multiple enviroment runtimes provided by Travis-Ci this packages is also on GitHub at the following address.
 
 > <https://github.com/nikpalumbo/db2rest.git>
+
+To keep the two repositories syncronized add the urls to your .git/config as following:
+	
+	…
+	[remote "origin"]
+		url = https://nikpalumbo@bitbucket.org/nikpalumbo/db2rest.git
+	    url = https://github.com/nikpalumbo/db2rest.git
+        fetch = +refs/heads/*:refs/remotes/origin/*
+	…
+
+Release the package
+-------------------
+To either register the packages (only once), or update the packages' metadata execute the following command in root dir of the package:
+	
+	python setup.py register  
+
+
+To realease this package in two format .gz and .zip use the following command is used to realease a new version:
+	
+	python setup.py sdist --formats=gztar,zip  upload
+
+if you want to make avaible the packages also as egg-files:
+	 
+	python setup.py bdist_egg upload
+
+The packages is available at:
+
+> <https://pypi.python.org/pypi/db2rest>
