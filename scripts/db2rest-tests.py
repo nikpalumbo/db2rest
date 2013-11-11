@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from db2rest.test import *
 import unittest
 
