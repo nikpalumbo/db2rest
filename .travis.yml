@@ -4,5 +4,5 @@ python:
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:  pip install db2rest
 # command to run tests, e.g. python setup.py test
-script:  db2rest-tests.py
+script:  python db2rest-tests.py
 
