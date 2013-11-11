@@ -114,3 +114,7 @@ To update a field of a row:
 
 --------------
 
+NOTES
+^^^^^
+
+This software is also on GITHub:  https://github.com/nikpalumbo/db2rest.git
