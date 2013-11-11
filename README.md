@@ -107,7 +107,7 @@ To keep the two repositories syncronized add the urls to your .git/config as fol
 
 Release the package
 -------------------
-To either register the packages (only once), or update the packages' metadata execute the following command in root dir of the package:
+To either register the package (only once), or update the package's metadata execute the following command in root dir of the package:
 	
 	python setup.py register  
 
