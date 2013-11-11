@@ -25,7 +25,7 @@ setup(
                       'simplejson','jinja2','python-ldap'],
     test_suite='db2rest.test',
     keywords=['database', 'HTTP rest'],
-    scripts=['scripts/db2rest-test.py'],
+    scripts=['scripts/db2rest-tests.py'],
     entry_points={'console_scripts': [
             'db2rest-run = db2rest.app:start']},
     classifiers=[
