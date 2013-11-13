@@ -22,7 +22,7 @@ setup(
     url='https://bitbucket.org/nikpalumbo/db2rest',
     long_description=open('README.md').read(),
     install_requires=['sqlalchemy','mysql-python','werkzeug',
-                      'simplejson','jinja2','python-ldap'],
+                      'simplejson','jinja2','python-ldap','sphinx'],
     test_suite='db2rest.test',
     keywords=['database', 'HTTP rest'],
     scripts=['scripts/db2rest-tests.py'],
