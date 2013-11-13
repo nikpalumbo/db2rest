@@ -1,8 +1,13 @@
-import sys
+"""This modules provide the main class of the application
+
+"""
 import os
-from werkzeug.wrappers import Request
+import sys
+
 import werkzeug.exceptions as ex
+from werkzeug.wrappers import Request
 from werkzeug.wsgi import SharedDataMiddleware
+
 from db2rest.db import DBAdapter
 from db2rest.rest import RestAPI
 from db2rest.exceptions import NotFound, Unauthorized
@@ -43,6 +48,8 @@ class DB2Rest(object):
 
 
 def create_app(config_file):
+    """Create the app and the db engine given the configuration file
+    """
     from sqlalchemy import create_engine
     import ConfigParser
 
@@ -63,18 +70,27 @@ def create_app(config_file):
 
 
 def initialize_ldap(string_connection, query):
+    """Initialize the connection with the LDAP server provided the connection string
+    """
     import ldap
     conn = ldap.initialize(string_connection)
     return dict(ldap=conn, query=query)
 
 
 def create_logger(level):
+    """Create the logger for the application given the level
+    """
     import logging
     logging.basicConfig(level=logging.getLevelName(level))
     return logging
 
 
 def create_map(db_engine):
+    """Create a map between the database schema and the application
+        - Each table in the database will be first level of the hiearachy
+        - Each row will be the second level
+    """
+     
     from werkzeug.routing import Map, Rule
     from sqlalchemy.schema import MetaData
     meta = MetaData()
@@ -88,6 +104,7 @@ def create_map(db_engine):
 
 
 def start():
+    """Start the app"""
     from werkzeug.serving import run_simple
 
     config_file = os.path.join(os.path.dirname(__file__), 'config.cfg')
