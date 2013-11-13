@@ -6,17 +6,46 @@
 Welcome to db2rest's documentation!
 ===================================
 
-Contents:
+README:
+=======
+   This is the README file `here`_.
+
+.. _here : https://bitbucket.org/nikpalumbo/db2rest
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. automodule:: db2rest
+   
+   db2rest.app
+   ===========
+   .. automodule:: db2rest.app
+      :members:
+      :undoc-members:
+   
+   db2rest.db
+   ==========
+   .. automodule:: db2rest.db
+      :members:
+      :undoc-members:
+   
+   db2rest.rest
+   ============
+   .. automodule:: db2rest.rest
+      :members:
+      :undoc-members:
+   
+   db2rest.exceptions
+   ==================
+   .. automodule:: db2rest.exceptions
+      :members:
+      :undoc-members:
+   
+   
+   Indices and tables
+   ==================
+   
+   * :ref:`genindex`
+   * :ref:`modindex`
+   * :ref:`search`
 
