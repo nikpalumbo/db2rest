@@ -11,6 +11,16 @@ except ImportError:
     from distutils.core import setup
 from os.path import join, dirname
 
+try:
+    import subprocess
+    cmd_covert = "pandoc README.md -w=markdown --to=rst -o README.rst".split(' ')
+    subprocess.call(cmd_covert)
+    long_description = open('README.rst').read()
+    import pandoc
+
+except:
+    long_description = open('README.md').read()
+
 __version__ = "0.1.1"
 setup(
     name="db2rest",
@@ -20,7 +30,7 @@ setup(
     author_email='nikpalumbo@gmail.com',
     packages=['db2rest','db2rest.test'],
     url='https://bitbucket.org/nikpalumbo/db2rest',
-    long_description=open('README.md').read(),
+    long_description=long_description,
     install_requires=['sqlalchemy','mysql-python','werkzeug',
                       'simplejson','jinja2','python-ldap','sphinx'],
     test_suite='db2rest.test',
