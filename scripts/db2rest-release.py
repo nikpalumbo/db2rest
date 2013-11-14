@@ -11,6 +11,7 @@ def main(vers):
     setup_file = os.path.sep.join((setup_dir, 'setup.py'))
     module_dir = os.path.sep.join(db2rest.__file__.split(os.path.sep)[:-1])
     version_txt = os.path.sep.join((setup_dir, 'version.txt'))
+
     # Updating the setup.py
     db2rest.update_version(vers)
     
@@ -26,9 +27,13 @@ def main(vers):
     subprocess.call(['git', 'push', '--all'])
     print "Pushed!"
 
-
     print "Building gztar and zip"
     p = subprocess.Popen(["python", setup_file , "sdist", "--formats=gztar,zip", "upload"], cwd=setup_dir)
+
+    print "Release the documentation"
+    p = subprocess.Popen(["python", setup_file , "upload_sphinx"], cwd=setup_dir)
+
+
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:

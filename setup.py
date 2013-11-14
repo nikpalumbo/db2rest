@@ -19,10 +19,6 @@ long_description = \
 db2rest provides a HTTP REST API for relational databases. You might
 find it most useful for tasks where you want access the database by
 using the HTTP protocol.
-
-Documentation:
-
-https://bitbucket.org/nikpalumbo/db2rest/overview
 """
 
 setup(
@@ -35,7 +31,7 @@ setup(
     url='https://bitbucket.org/nikpalumbo/db2rest',
     long_description=long_description,
     install_requires=['sqlalchemy','mysql-python','werkzeug',
-                      'simplejson','jinja2','python-ldap','sphinx'],
+                      'simplejson', 'jinja2', 'python-ldap', 'sphinx', 'sphinx-pypi-upload'],
     test_suite='db2rest.test',
     keywords=['database', 'HTTP rest'],
     scripts=['scripts/db2rest-tests.py', 'scripts/db2rest-doc.py'],

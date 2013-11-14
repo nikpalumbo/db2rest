@@ -1,3 +1,5 @@
 #!/usr/bin/env python
 import subprocess
-subprocess.call(["make", "--directory=../docs/", "html"])
+from db2rest import module_doc
+print module_doc
+subprocess.call(["make", "html"], cwd=module_doc)
