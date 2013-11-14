@@ -14,6 +14,10 @@ from db2rest.exceptions import NotFound, Unauthorized
 from db2rest.auth import is_authenticated
 
 
+__all__ = ["DB2Rest", "create_app", "initialize_ldap",
+           "create_logger", "start", "create_map"]
+
+
 class DB2Rest(object):
 
     def __init__(self, db_engine, host, port, log, ldap):

@@ -1,8 +1,15 @@
+"""This module provide the interfaces with the dababase.
+
+    It uses SQLAlchemy to connect and introspect a RDBMS
+"""
+
 import sqlalchemy as sql
 from sqlalchemy.orm.session import sessionmaker
 
 
 class DBAdapter(object):
+    """Responsible to adapt the database.
+    """
 
     def __init__(self, db_engine):
         self.meta = sql.schema.MetaData()
@@ -12,6 +19,10 @@ class DBAdapter(object):
         self.conn = db_engine.connect()
 
     def add_row(self, table_name, values):
+        """Add a row to a table
+            #: table_name
+            #: values
+        """
         table = sql.Table(table_name, self.meta)
         if set(values).issubset(set(table.columns.keys())):
             stmt = sql.sql.expression.insert(table, values)
@@ -19,9 +30,13 @@ class DBAdapter(object):
             return res.lastrowid
 
     def delete_row(self, table_name, row_id):
+        """Deletea row from a table
+            #: table_name
+            #: values
+        """
         table = sql.Table(table_name, self.meta)
         stmt = sql.sql.expression.delete(table).\
-            where(table.c.id == row_id)
+                   where(table.c.id == row_id)
         res = self.conn.execute(stmt)
         self.session.commit()
         return res.rowcount

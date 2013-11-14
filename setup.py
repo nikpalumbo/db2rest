@@ -2,7 +2,7 @@
 """ db2rest setup.py script """
 
 # db2rest
-from db2rest import __version__
+# from db2rest import __version__
 
 # system
 try:
@@ -25,7 +25,7 @@ setup(
                       'simplejson','jinja2','python-ldap','sphinx'],
     test_suite='db2rest.test',
     keywords=['database', 'HTTP rest'],
-    scripts=['scripts/db2rest-tests.py'],
+    scripts=['scripts/db2rest-tests.py', 'scripts/db2rest-doc.py'],
     entry_points={'console_scripts': [
             'db2rest-run = db2rest.app:start']},
     classifiers=[

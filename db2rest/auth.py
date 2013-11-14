@@ -1,3 +1,5 @@
+"""This module provides the interfaces with authentcation server
+"""
 from werkzeug.wrappers import Response
 
 
@@ -5,11 +7,11 @@ def check_auth(ldap, username, password):
     """This function is called to check if a username /
     password combination is valid.
     """
-    ld = ldap.get('ldap')
+    ld_server = ldap.get('ldap')
     # query = ldap.get('query') % dict(username=username)
     query = ldap.get('query') % username
     try:
-        ld.simple_bind_s(query, password)
+        ld_server.simple_bind_s(query, password)
         return True
     except:
         return False
