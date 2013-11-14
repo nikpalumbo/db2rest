@@ -11,17 +11,21 @@ except ImportError:
     from distutils.core import setup
 from os.path import join, dirname
 
-try:
-    import subprocess
-    cmd_covert = "pandoc README.md -w=markdown --to=rst -o README.rst".split(' ')
-    subprocess.call(cmd_covert)
-    long_description = open('README.rst').read()
-    import pandoc
+long_description = \
+""".. image:: https://pypip.in/v/db2rest/badge.png
+.. image:: https://pypip.in/d/db2rest/badge.png
+.. image:: https://travis-ci.org/nikpalumbo/db2rest.png?branch=master
 
-except:
-    long_description = open('README.md').read()
+db2rest provides a HTTP REST API for relational databases. You might
+find it most useful for tasks where you want access the database by
+using the HTTP protocol.
 
-__version__ = "0.1.1"
+Documentation:
+
+https://bitbucket.org/nikpalumbo/db2rest/overview
+"""
+
+__version__ = "0.1.2"
 setup(
     name="db2rest",
     version=__version__,
