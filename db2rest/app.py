@@ -94,7 +94,7 @@ def create_map(db_engine):
         - Each table in the database will be first level of the hiearachy
         - Each row will be the second level
     """
-     
+
     from werkzeug.routing import Map, Rule
     from sqlalchemy.schema import MetaData
     meta = MetaData()

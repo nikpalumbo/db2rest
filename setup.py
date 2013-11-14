@@ -2,7 +2,7 @@
 """ db2rest setup.py script """
 
 # db2rest
-# from db2rest import __version__
+from db2rest import __version__
 
 # system
 try:
@@ -25,7 +25,6 @@ Documentation:
 https://bitbucket.org/nikpalumbo/db2rest/overview
 """
 
-__version__ = "0.1.2"
 setup(
     name="db2rest",
     version=__version__,
