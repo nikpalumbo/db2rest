@@ -6,5 +6,7 @@ include scripts
 recursive-include bin *
 recursive-include doc *
 recursive-include db2rest *
+include db2rest/config.example
+include db2rest/version.txt
 global-exclude *.pyc
 global-exclude *.pyo
