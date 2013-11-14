@@ -14,7 +14,7 @@ from os.path import join, dirname
 __version__ = "0.1.1"
 setup(
     name="db2rest",
-    version='0.1.0',
+    version=__version__,
     description='A HTTP REST API for relational databases',
     author='Nicola Palumbo',
     author_email='nikpalumbo@gmail.com',
