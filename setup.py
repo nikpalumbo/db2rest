@@ -23,6 +23,7 @@ using the HTTP protocol.
 
 setup(
     name="db2rest",
+    include_package_data=True,
     version=__version__,
     description='A HTTP REST API for relational databases',
     author='Nicola Palumbo',
