@@ -5,6 +5,8 @@ import os
 
 
 class Renderer(object):
+    """Render the templates.
+    """
 
     extension_accepted = ['html', 'json', 'xml']
 

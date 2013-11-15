@@ -41,6 +41,12 @@ README:
       :members:
       :undoc-members:
    
+   db2rest.helpers
+   ===============
+   .. automodule:: db2rest.helpers
+      :members:
+      :undoc-members:
+   
    
    Indices and tables
    ==================

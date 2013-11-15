@@ -1,6 +1,6 @@
 def extract_file_ext(request):
-    """
-    Extracts file extension either from a request, or enviroment.
+    """Extracts file extension either from a
+       request, or enviroment.
     """
     if isinstance(request, basestring):
         mimetype = request

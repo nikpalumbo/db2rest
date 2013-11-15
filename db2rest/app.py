@@ -29,6 +29,11 @@ class DB2Rest(object):
         self.db_adapter = DBAdapter(db_engine)
 
     def dispatch_request(self, request):
+        """Responsible for dispatching the request.
+
+          TODO : the API class should not recevive the request
+          object but a dict with paramets
+        """
         adapter = self.url_map.bind_to_environ(request.environ)
         try:
             endpoint, values = adapter.match()
@@ -43,6 +48,10 @@ class DB2Rest(object):
             return e
 
     def wsgi_app(self, environ, start_response):
+        """Build the request from enviroment,
+        invoke the dispatcher and eventually, return
+        the response object.
+        """
         request = Request(environ)
         response = self.dispatch_request(request)
         return response(environ, start_response)

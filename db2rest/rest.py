@@ -4,6 +4,11 @@ from db2rest.exceptions import MethodNotAllowed
 
 
 class RestAPI(object):
+    """This is the class invoked by the dispatcher
+       and it provides the 4 operation POST,GET,DELETE,PUT
+
+       TODO: Should be refactored
+    """
 
     def __init__(self, db_adapter):
         self.db_adapter = db_adapter
@@ -11,23 +16,31 @@ class RestAPI(object):
         self.views = dict((v.name, v) for v in views)
 
     def post(self, request, params):
+        """Invoked when on a POST request.
+        """
         view = self.views.get(params['view'])
         row_id = view(self.db_adapter, request, params).create()
         response = helpers.create_response(request, row_id)
         return self.renderer(view, request, row_id, response)
 
     def get(self, request, params):
+        """Invoked when on a GET request.
+        """
         view = self.views.get(params['view'])
         data = view(self.db_adapter, request, params).get()
         return self.renderer(view, request, data)
 
     def delete(self, request, params):
+        """Invoked when on a DELETE request.
+        """
         view = self.views.get(params['view'])
         data = view(self.db_adapter, request, params).delete()
         response = helpers.delete_response(request)
         return self.renderer(view, request, data, response)
 
     def put(self, request, params):
+        """Invoked when on a PUT request.
+        """
         view = self.views.get(params['view'])
         row = view(self.db_adapter, request, params).update()
         response = helpers.update_response(request, row)
@@ -35,6 +48,7 @@ class RestAPI(object):
 
 
 class View(object):
+    """A view on a resource"""
 
     def __init__(self,  db_adapter, req, params):
         self.db_adapter = db_adapter
@@ -43,7 +57,7 @@ class View(object):
 
 
 class Table(View):
-
+    """View on a single table"""
     name = 'Table'
     valid_methods = ['get', 'post']
     template_name = "Table"
@@ -55,13 +69,13 @@ class Table(View):
 
     def create_json(self):
         """Extracts the values from the json request and
-        create the resource.
+           create the resource.
         """
         return self._create()
 
     def create_html(self):
         """Extract the values from the html request and
-        create the resource.
+           create the resource.
          """
         return self._create()
 
@@ -89,7 +103,8 @@ class Table(View):
 
 
 class Tables(View):
-
+    """View of a list of tables.
+    """
     name = 'Tables'
     valid_methods = ['get']
     template_name = "Tables"
@@ -104,6 +119,8 @@ class Tables(View):
 
 
 class Row(Table):
+    """View of a single row.
+    """
     name = 'Row'
     valid_methods = ['get', 'put', 'delete']
     template_name = "Table"
