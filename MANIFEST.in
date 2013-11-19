@@ -1,9 +1,9 @@
-include *.txt
 include CHANGES.txt
 include LICENSE.txt
 include MANIFEST.in
 include README.txt
 include scripts
+recursive-include db2rest *.example
 recursive-include bin *
 recursive-include doc *
 global-exclude *.pyc

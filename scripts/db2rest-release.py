@@ -4,6 +4,15 @@ import subprocess
 import os
 import db2rest
 
+def update_version(value):
+    """Update the module variable and the txt file."""
+    import db2rest.version
+    file_name = db2rest.version.__file__.replace('.pyc', '.py')
+
+    with open(file_name, 'w') as f:
+        f.write("version = '%s'" % value)
+
+
 def main(vers):
     # TODO: Improve this script
 
@@ -13,7 +22,7 @@ def main(vers):
     version_txt = os.path.sep.join((setup_dir, 'version.txt'))
 
     # Updating the setup.py
-    db2rest.update_version(vers)
+    update_version(vers)
     
     print "Update the version!"
     subprocess.call(['git', 'add', version_txt])
