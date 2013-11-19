@@ -128,4 +128,4 @@ def start():
     if not os.path.exists(config_file):
         raise IOError("Cannot read the configuration file:")
     app = create_app(config_file)
-    run_simple(app.host, app.port, app, use_debugger=True, use_reloader=True)
+    run_simple(app.host, app.port, app, use_debugger=False, use_reloader=False)

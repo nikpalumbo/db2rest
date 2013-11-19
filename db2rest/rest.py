@@ -15,6 +15,7 @@ class RestAPI(object):
         self.renderer = Renderer()
         self.views = dict((v.name, v) for v in views)
 
+
     def post(self, request, params):
         """Invoked when on a POST request.
         """
