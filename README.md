@@ -124,3 +124,30 @@ if you want to make avaible the packages also as egg-files:
 The packages is available at:
 
 > <https://pypi.python.org/pypi/db2rest>
+
+
+Apache and CGI Config
+---------------------
+	<VirtualHost *:80>
+    	ServerAdmin myemail@server.com
+    	ServerName myservername
+    	ServerAlias myalias1 myalias2
+   
+    	DocumentRoot /srv/mydocumenteroot/
+    <Directory /srv/mydocumenteroot/>
+	    Options Indexes FollowSymLinks MultiViews +ExecCGI
+            AllowOverride None
+            Order allow,deny
+            allow from all
+	    AddHandler cgi-script .cgi
+	    AuthType Basic
+           
+        Require valid-user
+    </Directory>
+     
+    RewriteEngine On
+    RewriteRule ^/(.*)$ /srv/mydocumenteroot/db2rest.cgi/$1 [QSA,L]
+    ErrorLog ${APACHE_LOG_DIR}/myaccess-api_error.log
+    CustomLog ${APACHE_LOG_DIR}/myaerror-api_access.log combined
+
+	</VirtualHost>
