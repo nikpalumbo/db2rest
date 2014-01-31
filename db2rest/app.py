@@ -36,11 +36,14 @@ class DB2Rest(object):
         """
         adapter = self.url_map.bind_to_environ(request.environ)
         try:
+            print "Started"
             endpoint, values = adapter.match()
+            print endpoint, values
             values['view'] = endpoint
             api = RestAPI(self.db_adapter)
-            if is_authenticated(self.ldap, request):
-                return getattr(api, request.method.lower())(request, values)
+            # if is_authenticated(self.ldap, request):
+            print request, values
+            return getattr(api, request.method.lower())(request, values)
             raise Unauthorized()
         except ex.NotFound, e:
             return NotFound()
@@ -129,3 +132,8 @@ def start():
         raise IOError("Cannot read the configuration file:")
     app = create_app(config_file)
     run_simple(app.host, app.port, app, use_debugger=False, use_reloader=False)
+
+
+if __name__ == "__main__":
+
+    start()

@@ -2,11 +2,15 @@ def extract_file_ext(request):
     """Extracts file extension either from a
        request, or enviroment.
     """
+    print request
     if isinstance(request, basestring):
         mimetype = request
     else:
         mimetype = request.accept_mimetypes.best
-    return mimetype.split('/')[1]
+    res = mimetype.split('/')[1]
+    if '*' in res:
+        res = 'html'
+    return res
 
 
 def extract_table_name(request):

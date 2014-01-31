@@ -28,6 +28,7 @@ class RestAPI(object):
         """Invoked when on a GET request.
         """
         view = self.views.get(params['view'])
+        print request, params
         data = view(self.db_adapter, request, params).get()
         return self.renderer(view, request, data)
 
@@ -51,7 +52,7 @@ class RestAPI(object):
 class View(object):
     """A view on a resource"""
 
-    def __init__(self,  db_adapter, req, params):
+    def __init__(self, db_adapter, req, params):
         self.db_adapter = db_adapter
         self.request = req
         self.params = params
@@ -89,6 +90,7 @@ class Table(View):
 
     def _get(self):
         table = self.request.path[1:]
+        print "In _get:", table
         headers = self.db_adapter.get_headers(table)
         rows = self.db_adapter.get_rows(table)
         return table, headers, rows
@@ -135,7 +137,7 @@ class Row(Table):
     def update(self):
         table, row_id = helpers.extract_table_row_id(self.request.path)
         values = dict(self.request.values.items())
-        return self.db_adapter.update_row(table, row_id, values)
+        return self.db_adapter.update_row(table, int(row_id), values)
 
     def delete(self):
         table, row_id = helpers.extract_table_row_id(self.request.path)
