@@ -66,8 +66,11 @@ class DBAdapter(object):
     def update_row(self, table_name, row_id, values):
         """Update the given row_id in the given table."""
         table = sql.Table(table_name, self.meta)
+	for key in values.keys():
+	    if key not in self.get_headers(table_name):
+                del values[key]
         stmt = sql.sql.expression.update(table).\
-            where(table.c.id == row_id).\
+            where(table.c.id == int(row_id)).\
             values(values)
         res = self.conn.execute(stmt)
         self.session.commit()

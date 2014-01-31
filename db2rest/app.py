@@ -12,7 +12,7 @@ from db2rest.db import DBAdapter
 from db2rest.rest import RestAPI
 from db2rest.exceptions import NotFound, Unauthorized
 from db2rest.auth import is_authenticated
-
+import logging
 
 __all__ = ["DB2Rest", "create_app", "initialize_ldap",
            "create_logger", "start", "create_map"]
@@ -36,13 +36,10 @@ class DB2Rest(object):
         """
         adapter = self.url_map.bind_to_environ(request.environ)
         try:
-            print "Started"
             endpoint, values = adapter.match()
-            print endpoint, values
             values['view'] = endpoint
             api = RestAPI(self.db_adapter)
-            # if is_authenticated(self.ldap, request):
-            print request, values
+            #if is_authenticated(self.ldap, request):
             return getattr(api, request.method.lower())(request, values)
             raise Unauthorized()
         except ex.NotFound, e:
@@ -88,6 +85,7 @@ def create_app(config_file):
 def initialize_ldap(string_connection, query):
     """Initialize the connection with the LDAP server provided the connection string
     """
+    return
     import ldap
     conn = ldap.initialize(string_connection)
     return dict(ldap=conn, query=query)
@@ -96,7 +94,6 @@ def initialize_ldap(string_connection, query):
 def create_logger(level):
     """Create the logger for the application given the level
     """
-    import logging
     logging.basicConfig(level=logging.getLevelName(level))
     return logging
 
@@ -112,28 +109,29 @@ def create_map(db_engine):
     meta = MetaData()
     meta.reflect(bind=db_engine)
     rules = [Rule('/', endpoint='Tables')]
+    try:
+      tables = meta.sorted_tables
+    except:
+	logging.info('Cannot use sorted tables function')
+	tables = meta.tables
 
-    for table in reversed(meta.sorted_tables):
+    for table in tables:
         rules.append(Rule("/%s" % table, endpoint='Table'))
         rules.append(Rule("/%s/<int:id>" % table, endpoint='Row'))
     return Map(rules)
 
 
-def start():
+def start(config_file=None):
     """Start the app"""
     from werkzeug.serving import run_simple
+    if not config_file:
+        config_file = os.path.join(os.path.dirname(__file__), 'config.cfg')
 
-    config_file = os.path.join(os.path.dirname(__file__), 'config.cfg')
-
-    if len(sys.argv) > 1:
+    if not config_file and len(sys.argv) > 1:
         config_file = sys.argv[1]
 
     if not os.path.exists(config_file):
         raise IOError("Cannot read the configuration file:")
     app = create_app(config_file)
+    return app
     run_simple(app.host, app.port, app, use_debugger=False, use_reloader=False)
-
-
-if __name__ == "__main__":
-
-    start()

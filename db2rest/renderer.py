@@ -1,16 +1,17 @@
 from werkzeug.wrappers import Response
 from jinja2 import Environment, FileSystemLoader
-from simplejson import JSONEncoder
+from simplejson import JSONEncoder 
 import os
 import datetime
 
 class ImprovedJSONEncoder(JSONEncoder):
     def default(self, obj):
         if isinstance(obj, datetime.datetime) or\
-           isinstance(obj, datetime.date):
+	   isinstance(obj, datetime.date):
             return obj.isoformat()
         else:
             return super(ImprovedJSONEncoder, self).default(obj)
+
 
 class Renderer(object):
     """Render the templates.
@@ -38,12 +39,13 @@ class Renderer(object):
 
     def _render_template(self, template_name, data, response, mimetype):
         file_ext = mimetype.split('/')[1]
-        # To avoid rendering some unknown file
+        #To avoid rendering some unknown file
         if not file_ext in self.extension_accepted:
-            file_ext = 'html'
+            #TODO: raise an appropriate exception
+            return
 
         template_path = "".join((template_name, '.', file_ext))
         render = self._render(data, file_ext, template_path)
         if response is None:
-            response = Response(render(data), mimetype=mimetype)
+            response = Response(render(data),  mimetype=mimetype)
         return response
