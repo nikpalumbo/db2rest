@@ -20,6 +20,8 @@ __all__ = ["DB2Rest", "create_app", "initialize_ldap",
 
 class DB2Rest(object):
 
+    auth = False
+
     def __init__(self, db_engine, host, port, log, ldap):
         self.url_map = create_map(db_engine)
         self.host = host
@@ -39,8 +41,8 @@ class DB2Rest(object):
             endpoint, values = adapter.match()
             values['view'] = endpoint
             api = RestAPI(self.db_adapter)
-            #if is_authenticated(self.ldap, request):
-            return getattr(api, request.method.lower())(request, values)
+            if not self.auth or is_authenticated(self.ldap, request):
+                return getattr(api, request.method.lower())(request, values)
             raise Unauthorized()
         except ex.NotFound, e:
             return NotFound()
@@ -72,9 +74,13 @@ def create_app(config_file):
     port = config.getint('webserver', 'port')
     db_engine = create_engine(config.get('db', 'string_connection'))
     log = create_logger(config.get('logger', 'level'))
-    ldap = initialize_ldap(config.get('ldap', 'string_connection'),
-                           config.get('ldap', 'query'))
+    ldap = None
+    if config.getboolean('ldap','active'):
+        ldap = initialize_ldap(config.get('ldap', 'string_connection'),
+                               config.get('ldap', 'query'))
     app = DB2Rest(db_engine, host, port, log, ldap)
+    if ldap:
+        app.auth = True
     shared = SharedDataMiddleware(
         app.wsgi_app,
         {'/static':  os.path.join(os.path.dirname(__file__), 'static')})
@@ -83,9 +89,9 @@ def create_app(config_file):
 
 
 def initialize_ldap(string_connection, query):
-    """Initialize the connection with the LDAP server provided the connection string
+    """Initialize the connection with the LDAP server
+    provided the connection string
     """
-    return
     import ldap
     conn = ldap.initialize(string_connection)
     return dict(ldap=conn, query=query)
@@ -109,13 +115,7 @@ def create_map(db_engine):
     meta = MetaData()
     meta.reflect(bind=db_engine)
     rules = [Rule('/', endpoint='Tables')]
-    try:
-      tables = meta.sorted_tables
-    except:
-	logging.info('Cannot use sorted tables function')
-	tables = meta.tables
-
-    for table in tables:
+    for table in meta.tables:
         rules.append(Rule("/%s" % table, endpoint='Table'))
         rules.append(Rule("/%s/<int:id>" % table, endpoint='Row'))
     return Map(rules)
@@ -123,7 +123,6 @@ def create_map(db_engine):
 
 def start(config_file=None):
     """Start the app"""
-    from werkzeug.serving import run_simple
     if not config_file:
         config_file = os.path.join(os.path.dirname(__file__), 'config.cfg')
 
@@ -134,4 +133,8 @@ def start(config_file=None):
         raise IOError("Cannot read the configuration file:")
     app = create_app(config_file)
     return app
+
+if __name__ == '__main__':
+    from werkzeug.serving import run_simple
+    app = start()
     run_simple(app.host, app.port, app, use_debugger=False, use_reloader=False)

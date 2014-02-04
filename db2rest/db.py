@@ -36,14 +36,14 @@ class DBAdapter(object):
         """
         table = sql.Table(table_name, self.meta)
         stmt = sql.sql.expression.delete(table).\
-                   where(table.c.id == row_id)
+                    where(table.c.id == row_id)
         res = self.conn.execute(stmt)
         self.session.commit()
         return res.rowcount
 
     def get_tables(self):
         """Return all the tables in the DB."""
-        return [x.name for x in reversed(self.meta.sorted_tables)]
+        return sorted([x for x in self.meta.tables])
 
     def get_headers(self, table_name):
         """Return the column name of a given table."""
@@ -66,9 +66,9 @@ class DBAdapter(object):
     def update_row(self, table_name, row_id, values):
         """Update the given row_id in the given table."""
         table = sql.Table(table_name, self.meta)
-	for key in values.keys():
-	    if key not in self.get_headers(table_name):
-                del values[key]
+        for key in values.keys():
+            if key not in self.get_headers(table_name):
+              del values[key]
         stmt = sql.sql.expression.update(table).\
             where(table.c.id == int(row_id)).\
             values(values)
