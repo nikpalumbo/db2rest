@@ -35,6 +35,7 @@ configure LDAP to provied to the API a way to authorize the users.
     level: DEBUG
 
     [ldap]
+    active: false
     string_connection: ldap://LDAPSERVER
     query:              MYQUERY
 
