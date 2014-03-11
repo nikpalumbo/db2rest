@@ -90,7 +90,8 @@ class Table(View):
     def _get(self):
         table = self.request.path[1:]
         headers = self.db_adapter.get_headers(table)
-        rows = self.db_adapter.get_rows(table)
+        params = values = dict(self.request.values.items())
+        rows = self.db_adapter.get_rows(table, params=params)
         return table, headers, rows
 
     def get_json(self):

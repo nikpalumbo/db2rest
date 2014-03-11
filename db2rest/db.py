@@ -49,16 +49,18 @@ class DBAdapter(object):
         """Return the column name of a given table."""
         return [x.name for x in sql.Table(table_name, self.meta).columns]
 
-    def get_rows(self, table_name):
-        """Return all the rows a given table.
-
-           TODO: Should be improved with the possibility
-           to filter the rows by some criteria
+    def get_rows(self, table_name, params={}):
+        """Return some or all rows in case params is not specified
+           a given table.
         """
-        table = sql.Table(table_name, self.meta)
-        return self.session.query(table).all()
+        for key in params.keys():
+            if key not in self.get_headers(table_name):
+              del params[key]
 
-    def get_row(self, table_name, row_id):
+        table = sql.Table(table_name, self.meta)
+        return self.session.query(table).filter_by(**params)
+
+    def  get_row(self, table_name, row_id):
         """Returns a list with a row found."""
         table = sql.Table(table_name, self.meta)
         return [self.session.query(table).filter_by(id=row_id).one()]
