@@ -30,5 +30,4 @@ def is_authenticated(ldap, request):
     """Verify wether the request is authorized or not.
     """
     auth = request.authorization
-    return auth
-    #return auth and check_auth(ldap, auth.username, auth.password)
+    return auth and check_auth(ldap, auth.username, auth.password)
