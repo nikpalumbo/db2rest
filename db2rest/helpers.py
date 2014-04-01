@@ -6,6 +6,9 @@ def extract_file_ext(request):
         mimetype = request
     else:
         mimetype = request.accept_mimetypes.best
+
+    if mimetype == "*/*" or mimetype is None:
+        mimetype = "*/json"
     return mimetype.split('/')[1]
 
 

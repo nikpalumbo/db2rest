@@ -16,4 +16,4 @@ module_doc = os.path.sep.join(__file__.split(os.path.sep)[:-2] + ['doc'])
 file_name = version.__file__
 
 #__version__ = version.vers
-__version__ = "0.1.5"
+__version__ = "0.1.7"
