@@ -126,7 +126,7 @@ def start(config_file=None):
     if not config_file:
         config_file = os.path.join(os.path.dirname(__file__), 'config.cfg')
 
-    if not config_file and len(sys.argv) > 1:
+    if len(sys.argv) > 1:
         config_file = sys.argv[1]
 
     if not os.path.exists(config_file):
