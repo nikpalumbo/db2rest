@@ -152,3 +152,24 @@ Apache and CGI Config
     CustomLog ${APACHE_LOG_DIR}/myaerror-api_access.log combined
 
 	</VirtualHost>
+
+Apache and Proxy Pass
+---------------------
+
+I've experienced slow response time with previous configuration of Apache 
+therefore I prefer to use the proxy pass directive as following:
+
+<VirtualHost *:80>
+    ServerAdmin myemail@server.com
+  	ServerName myservername
+   	ServerAlias myalias1 myalias2
+   
+    ProxyPass / http://localhost:myport/
+    ProxyPassReverse / http://localhost:myport/
+
+    ErrorLog ${APACHE_LOG_DIR}/my-api_error.log
+    CustomLog ${APACHE_LOG_DIR}/my-api_access.log combined
+
+</VirtualHost>
+
+
