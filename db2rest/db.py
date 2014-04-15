@@ -18,6 +18,10 @@ class DBAdapter(object):
         self.session = sessionmaker(db_engine)()
         self.conn = db_engine.connect()
 
+    def rollback(self):
+        self.session.rollback()
+        self.conn = self.db_engine.connect()
+
     def add_row(self, table_name, values):
         """Add a row to a table
             #: table_name
@@ -53,12 +57,17 @@ class DBAdapter(object):
         """Return some or all rows in case params is not specified
            a given table.
         """
+        self.rollback()
         for key in params.keys():
             if key not in self.get_headers(table_name):
               del params[key]
-
-        table = sql.Table(table_name, self.meta)
-        return self.session.query(table).filter_by(**params)
+        res = []
+        try:
+            table = sql.Table(table_name, self.meta)
+            res = self.session.query(table).filter_by(**params)
+        except:
+            pass
+        return res
 
     def  get_row(self, table_name, row_id):
         """Returns a list with a row found."""
