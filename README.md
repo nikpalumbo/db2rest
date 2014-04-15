@@ -171,5 +171,3 @@ therefore I prefer to use the proxy pass directive as following:
         CustomLog ${APACHE_LOG_DIR}/my-api_access.log combined
 
     </VirtualHost>
-
-
