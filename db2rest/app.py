@@ -112,10 +112,15 @@ def create_map(db_engine):
 
     from werkzeug.routing import Map, Rule
     from sqlalchemy.schema import MetaData
+    from sqlalchemy.engine import reflection
+    insp = reflection.Inspector.from_engine(db_engine)
+    tbls = insp.get_view_names()
     meta = MetaData()
     meta.reflect(bind=db_engine)
+    tbls.extend(meta.tables)
     rules = [Rule('/', endpoint='Tables')]
-    for table in meta.tables:
+    for table in tbls:
+        print table
         rules.append(Rule("/%s" % table, endpoint='Table'))
         rules.append(Rule("/%s/<int:id>" % table, endpoint='Row'))
     return Map(rules)

@@ -5,7 +5,9 @@
 
 import sqlalchemy as sql
 from sqlalchemy.orm.session import sessionmaker
-
+from sqlalchemy.engine import reflection
+from sqlalchemy.types import Integer
+from  sqlalchemy.schema import Column
 
 class DBAdapter(object):
     """Responsible to adapt the database.
@@ -47,7 +49,10 @@ class DBAdapter(object):
 
     def get_tables(self):
         """Return all the tables in the DB."""
-        return sorted([x for x in self.meta.tables])
+        insp = reflection.Inspector.from_engine(self.db_engine)
+        views = insp.get_view_names()
+        views.extend(self.meta.tables)
+        return sorted(views)
 
     def get_headers(self, table_name):
         """Return the column name of a given table."""
@@ -64,8 +69,15 @@ class DBAdapter(object):
         res = []
         try:
             table = sql.Table(table_name, self.meta)
+            if not len(table.columns.keys()):
+                table = sql.Table(table_name, self.meta,
+                                  Column("id", Integer, primary_key=True),
+                                  autoload=True,
+                                  autoload_with=self.db_engine,
+                                  extend_existing=True)
             res = self.session.query(table).filter_by(**params)
-        except:
+        except Exception, e:
+            print e
             pass
         return res
 
